@@ -1,0 +1,54 @@
+
+# Colors
+bold='';
+reset="\e[0m";
+black="\e[0;30m";
+blue="\e[0;34m";
+cyan="\e[0;36m";
+green="\e[0;32m";
+orange="\e[0;33m";
+purple="\e[0;35m";
+red="\e[0;31m";
+violet="\e[0;35m";
+white="\e[0;37m";
+yellow="\e[0;33m";
+default="\e[0;39m";
+
+redback="\e[1;41m";
+greenback="\e[1;42m";
+yellowback="\e[1;43m";
+blueback="\e[1;44m";
+violetback="\e[1;45m";
+cyanback="\e[1;46m";
+whiteback="\e[1;47m";
+
+environ=`hostname | cut -b 8-8`
+
+if [[ "${SSH_TTY}" ]]; then
+    if [[ "$environ" == "d" ]]; then
+        hostStyle="${greenback}";
+    elif [[ "$environ" == "s" ]]; then
+        hostStyle="${blueback}";
+    elif [[ "$environ" == "u" ]]; then
+        hostStyle="${yellowback}";
+    elif [[ "$environ" == "p" ]]; then
+        hostStyle="${redback}";
+    else
+        hostStyle="${default}";
+    fi;
+else
+    hostStyle="${default}";
+fi;
+
+PS1="\[\033]0;\w\007\]";
+#PS1+="\[${bold}\]\n"; # newline
+PS1+="\[${default}\]\u"; # username, use userStyle instead
+PS1+="\[${default}\]@";
+PS1+="\[${hostStyle}\]\h"; # host
+PS1+="\[${default}\]:";
+PS1+="\[${default}\]\w"; # working directory
+#PS1+="\$(prompt_git \"${default} on ${violet}\")"; # Git repository details
+#PS1+="\n";
+PS1+="\[${default}\]\$ \[${reset}\]"; # `$` (and reset color)
+export PS1;
+
